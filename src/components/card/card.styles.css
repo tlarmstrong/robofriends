@@ -1,3 +1,34 @@
 .robocard {
+  max-width: 300px;
   min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.robocard img {
+  width: 90%;
+}
+
+.robot-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+}
+
+.robot-details p {
+  font-size: small;
+}
+
+@media only screen and (min-width: 1200px) {
+  .robocard {
+    width: 20%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .robocard {
+    width: 85%;
+  }
 }

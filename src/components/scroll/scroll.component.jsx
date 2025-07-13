@@ -4,7 +4,7 @@ import './scroll.styles.css';
 
 const Scroll = (props) => {
   return (
-    <div className='scroll'>
+    <div className='scroll cardlist'>
       { props.children }
     </div>
   );
