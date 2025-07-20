@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Searchbox from '../../components/searchbox/searchbox.component';
 import Scroll from '../../components/scroll/scroll.component';
@@ -7,48 +7,40 @@ import CardList from '../../components/card-list/card-list.component';
 import './app.styles.css';
 
 // this is a smart comoonent; it uses state
-class App extends Component {
-  constructor() {
-    super();
+function App() {
+  const [ robots, setRobots ] = useState([]);
+  const [ searchString, setSearchString ] = useState('');
+  const [ count, setCount ] = useState(0);
 
-    this.state = {
-      robots: [],
-      searchString: ''
-    }
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
-      .then(robots => this.setState({ robots: robots }));
-  }
+      .then(users => {setRobots(users)});
+  }, []);
 
-  onSearchChange =(event) => {
+  const onSearchChange = (event) => {
     const searchString = event.target.value;
-    this.setState({ searchString: searchString });
+    setSearchString(searchString);
   }
 
-  render() {
-    const { robots, searchString } = this.state;
 
-    const filteredRobots = robots.filter(robot => {
-      return robot.name.toLowerCase().includes(searchString.toLowerCase());
-    })
+  const filteredRobots = robots.filter(robot => {
+    return robot.name.toLowerCase().includes(searchString.toLowerCase());
+  })
 
-    if(!robots.length) {
-      return <span className="material-symbols-outlined progress">progress_activity</span>
-    }
-
-    return (
-      <div className='tc'>
-        <h1 className='title'>RoboFriends</h1>
-        <Searchbox searchChange={this.onSearchChange} />
-        <Scroll>
-          <CardList robots={filteredRobots} />
-        </Scroll>
-      </div>
-    )
+  if(!robots.length) {
+    return <span className="material-symbols-outlined progress">progress_activity</span>
   }
+
+  return (
+    <div className='tc'>
+      <h1 className='title'>RoboFriends</h1>
+      <Searchbox searchChange={ onSearchChange } />
+      <Scroll>
+        <CardList robots={ filteredRobots } />
+      </Scroll>
+    </div>
+  )
 }
 
 export default App;
